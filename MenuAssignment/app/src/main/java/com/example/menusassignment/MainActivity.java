@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         prefs = getSharedPreferences(SETTINGS, 0);
+
+        // get the stored bookmark value from the preferences
         String bookmark = prefs.getString(BOOKMARK, "");
 
         // Adds settings menu to the toolbar
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toggle.syncState();
 
-
+        // Default Fragment
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
@@ -87,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    /**
+     * Queries SharedPreferences and sets the fragment in the view
+     * based on the value received
+     * @param bookmark string retrieved from shared preferences
+     */
     public void displayBookmarkedFragment(String bookmark){
         if ( bookmark.equals("World")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -140,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onPointerCaptureChanged(hasCapture);
     }
 
+    // Drawer layout navigation listener
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
@@ -163,6 +171,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    // Custom back press functionality
+    // Closes the drawer instead of exiting the application
     @Override
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){

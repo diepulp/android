@@ -34,6 +34,7 @@ public class SettingsFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_settings,container, false);
         ListView newsList = view.findViewById(R.id.settings_list);
 
+        // ListView Adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),R.layout.fragment_settings,
                 R.id.textView, list);
         newsList.setAdapter(adapter);
@@ -46,15 +47,23 @@ public class SettingsFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo){
         getActivity().getMenuInflater().inflate(R.menu.context_menu, menu);
     }
+
+    // Context menu listener
     public boolean onContextItemSelected(MenuItem item){
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        //gets the menu info
+        AdapterView.AdapterContextMenuInfo info =
+                (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        // Gets the position of the item clicked in the ListView
         String listItem = list[info.position];
 
+        // Store the bookmark value clicked in the context menu
         SharedPreferences prefs = requireContext().getSharedPreferences(SETTINGS, 0);
-        SharedPreferences.Editor editor =prefs.edit();
+        SharedPreferences.Editor editor = prefs.edit();
         editor.putString(BOOKMARK, listItem);
         editor.apply();
 
+        // Display the toast confirmation
         if (item.getItemId() == R.id.bookmark){
             Toast.makeText(getActivity(), prefs.getString(BOOKMARK, "")
                     + " was added to favorite", Toast.LENGTH_SHORT).show();
@@ -63,5 +72,4 @@ public class SettingsFragment extends Fragment {
         }
         return true;
     }
-
 }
