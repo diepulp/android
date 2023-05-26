@@ -9,22 +9,26 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/nav_home"
-            android:title="Home"/>
+            android:id="@+id/nav_sport"
+            android:icon="@drawable/baseline_sports_score_24"
+            android:title="Sport"/>
 
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/nav_settings"
-            android:title="Settings"/>
+            android:id="@+id/nav_business"
+            android:icon="@drawable/baseline_currency_exchange_24"
+            android:title="Business"/>
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/nav_share"
-            android:title="Home"/>
+            android:id="@+id/nav_tech"
+            android:icon="@drawable/cloud"
+            android:title="Technology"/>
         <item
-            android:id="@+id/nav_about"
-            android:icon="@drawable/nav_about"
-            android:title="About"/>
+            android:id="@+id/nav_entertainment"
+            android:icon="@drawable/baseline_hive_24"
+            android:title="Entertainment"/>
+        <item
+            android:id="@+id/nav_world"
+            android:icon="@drawable/baseline_place_24"
+            android:title="World"/>
     </group>
 
     <item

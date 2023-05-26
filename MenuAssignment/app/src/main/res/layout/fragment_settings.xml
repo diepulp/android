@@ -6,54 +6,6 @@
     android:orientation="vertical"
     tools:context=".SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-<!--    <ListView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/newsList"/>-->
-
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/text"-->
-<!--        android:padding="10dp"-->
-<!--        android:textSize="20sp"-->
-<!--        android:text="Long Press to select favorites:"-->
-
-<!--        />-->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/world"-->
-<!--        android:padding="10dp"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="World News"/>-->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/business"-->
-<!--        android:padding="10dp"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="Business News"/>-->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/tech"-->
-<!--        android:padding="10dp"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="Tech News"/>-->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:id="@+id/sports"-->
-<!--        android:padding="10dp"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        android:text="Sport News"/>-->
 
     <TextView
         android:layout_width="match_parent"
@@ -62,7 +14,7 @@
         android:padding="10dp"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Press the item to set the preference"/>
+        android:text="Press the item to set the bookmark"/>
 
     <ListView
         android:layout_width="match_parent"

@@ -1,4 +1,12 @@
+/**
+ * Assignment: Menus/Navigation Drawer
+ * Author: Vladimir Ivanov
+ * Date: 5-25-2023
+ */
 package com.example.menusassignment;
+
+import static com.example.menusassignment.SettingsFragment.BOOKMARK;
+import static com.example.menusassignment.SettingsFragment.SETTINGS;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -12,6 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -32,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
 
-    String[] news;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,9 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
-
-        // ListView Adapter
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.news);
+        prefs = getSharedPreferences(SETTINGS, 0);
+        String bookmark = prefs.getString(BOOKMARK, "");
 
         // Adds settings menu to the toolbar
         // onCreateOptionsMenu doesn't work <?>
@@ -68,12 +76,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toggle.syncState();
 
+
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
-            navigationView.setCheckedItem(R.id.nav_home);
+            navigationView.setCheckedItem(R.id.nav_sport);
         }
 
+        displayBookmarkedFragment(bookmark);
+
+    }
+
+    public void displayBookmarkedFragment(String bookmark){
+        if ( bookmark.equals("World")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new WorldFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_world);
+            Toast.makeText(this, bookmark, Toast.LENGTH_SHORT).show();
+        } else if (bookmark.equals("Tech")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new TechFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_tech);
+        } else if (bookmark.equals("Business")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new BusinessFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_tech);
+        }  else if (bookmark.equals("Sports")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new SportFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_tech);
+        } else if (bookmark.equals("Entertainment")){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new EntertainmentFragment()).commit();
+            navigationView.setCheckedItem(R.id.nav_tech);
+        }
     }
 
     // Context menu
@@ -107,20 +143,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.nav_home) {
+        if (itemId == R.id.nav_sport) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new HomeFragment()).addToBackStack(null).commit();
-        } else if (itemId == R.id.nav_settings) {
+                    new SportFragment()).addToBackStack(null).commit();
+        } else if (itemId == R.id.nav_world) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new SettingsFragment()).addToBackStack(null).commit();
-        } else if (itemId == R.id.nav_share) {
+                    new WorldFragment()).addToBackStack(null).commit();
+        } else if (itemId == R.id.nav_tech) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new ShareFragment()).addToBackStack(null).commit();
-        } else if (itemId == R.id.nav_about) {
+                    new TechFragment()).addToBackStack(null).commit();
+        } else if (itemId == R.id.nav_business) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    new AboutFragment()).addToBackStack(null).commit();
-        } else if (itemId == R.id.nav_logout) {
-            Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                    new BusinessFragment()).addToBackStack(null).commit();
+        } else if (itemId == R.id.nav_entertainment) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new EntertainmentFragment()).addToBackStack(null).commit();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
