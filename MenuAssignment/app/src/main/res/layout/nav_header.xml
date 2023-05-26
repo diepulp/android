@@ -3,10 +3,10 @@
     android:id="@+id/nav_header"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="176dp"
+    android:layout_height="wrap_content"
     android:gravity="bottom"
     android:padding="16dp"
-    android:background="@color/green"
+    android:background="@color/doceba"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
