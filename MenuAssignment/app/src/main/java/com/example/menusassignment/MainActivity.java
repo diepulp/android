@@ -18,35 +18,106 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
-
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.menusassignment.model.Constants;
+import com.example.menusassignment.model.articles.Article;
+import com.example.menusassignment.model.articles.Root;
+import com.example.menusassignment.model.data.INewsService;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
-
     SharedPreferences prefs;
+
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        textView = findViewById(R.id.error);
+
+        String json = "{\n" +
+                "      \"source\": {\n" +
+                "        \"id\": \"the-washington-post\",\n" +
+                "        \"name\": \"The Washington Post\"\n" +
+                "      },\n" +
+                "      \"author\": \"Dan Rosenzweig-Ziff\",\n" +
+                "      \"title\": \"Nearly any material can harvest energy out of thin air, scientists find - The Washington Post\",\n" +
+                "      \"description\": \"The technology builds on research that showed it was possible to capture the energy in humidity. The latest discovery finds it's possible to do so with any material.\",\n" +
+                "      \"url\": \"https://www.washingtonpost.com/science/2023/05/26/harvest-energy-thin-air/\",\n" +
+                "      \"urlToImage\": \"https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/52YSPI46IESSBZL6CT43CHRITE.jpg&w=1440\",\n" +
+                "      \"publishedAt\": \"2023-05-27T01:20:21Z\",\n" +
+                "      \"content\": \"Comment on this story\\r\\nComment\\r\\nNearly any material can be used to turn the energy in air humidity into electricity, scientists found in a discovery that could lead to continuously producing clean en… [+3522 chars]\"\n" +
+                "    }";
+
+        Gson gson = new Gson();
+//        Article article = gson.fromJson(json, Article.class);
+        System.out.println("article");
+
+        //Instantiate Retrofit
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.NEWS_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        // Retrofit implements the interface method
+        INewsService newsService = retrofit.create(INewsService.class);
+
+        // Execute the network request using the Call object
+        Call<Root> call = newsService.getArticles();
+
+        // execute async on the background thread
+        call.enqueue(new Callback<Root>() {
+            @Override
+            public void onResponse(Call<Root> call, Response<Root> response) {
+                if (!response.isSuccessful()){
+                    textView.setText("Code: " + response.code());
+                    return;
+                }
+
+                List<Article> articles = response.body().getArticles();
+
+                for (Article article : articles ){
+                    String content = "";
+                    content += "ID: " + article.getTitle();
+
+                    // append is used to prevent overwriting on the previous post
+                    textView.append(content);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Root> call, Throwable t) {
+
+            }
+        });
+
+
+
 
         // Initiate the instance variables
         toolbar = findViewById(R.id.toolbar);
@@ -99,23 +170,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new WorldFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_world);
-            Toast.makeText(this, bookmark, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, bookmark + " was stored in the preferences", Toast.LENGTH_SHORT).show();
         } else if (bookmark.equals("Tech")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new TechFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_tech);
+            Toast.makeText(this, bookmark + " was stored in the preferences", Toast.LENGTH_SHORT).show();
         } else if (bookmark.equals("Business")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new BusinessFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_tech);
+            Toast.makeText(this, bookmark + " was stored in the preferences", Toast.LENGTH_SHORT).show();
         }  else if (bookmark.equals("Sports")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new SportFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_tech);
+            Toast.makeText(this, bookmark + " was stored in the preferences", Toast.LENGTH_SHORT).show();
         } else if (bookmark.equals("Entertainment")){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new EntertainmentFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_tech);
+            Toast.makeText(this, bookmark + " was stored in the preferences", Toast.LENGTH_SHORT).show();
         }
     }
 

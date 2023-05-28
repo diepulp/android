@@ -18,6 +18,14 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/error"
+        android:text="Error"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:layout_centerInParent="true"/>
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
